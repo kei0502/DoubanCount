@@ -4,8 +4,10 @@ var express = require('express');
 var app = express();
 app.use(express.static('public'));
 app.get('/name', function (req, res) {
-  if(name&&name==req.query.name)
-    res.end(JSON.stringify({'years':years,'tags':tags,'stars':stars}));
+  if(name&&name==req.query.name) {
+    res.end(JSON.stringify({'status':1,'years': years, 'tags': tags, 'stars': stars}));
+    return;
+  }
   else{
     name=req.query.name;
     movies=[],yearcount={},yearstar={},years=[],tags=[],stars=[];
@@ -23,7 +25,7 @@ var url = 'http://movie.douban.com/people/{name}/collect?sort=time&start=0&mode=
 var name,movies=[],yearcount={},yearstar={},years=[],tags=[],stars=[];
 function getMovies(username,res) {
   if(username)
-    url=url.replace('{name}',username);
+    url='http://movie.douban.com/people/'+username+'/collect?sort=time&start=0&mode=grid';
   console.log(url);
   request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
@@ -35,7 +37,9 @@ function getMovies(username,res) {
           title=title.substring(0,title.indexOf(' '));
         title=title.trim();
         var date=$(this).find('.date').text().trim();
-        var rate=$(this).find('[class^="rating"]').attr('class').substr(6,1);
+        var rate=$(this).find('[class^="rating"]').attr('class');
+        if(rate)
+          rate=rate.substr(6,1);
         var tag=$(this).find('.tags').text().replace('标签: ','').split(' ');
         var img=$(this).find('.pic img').attr('src');
         var comment=$(this).find('span.comment').text();
@@ -85,8 +89,11 @@ function getMovies(username,res) {
           else
             years.push({'year':year,'count':yearcount[year],'star':0});
         }
-        res.end(JSON.stringify({'years':years,'tags':tags,'stars':stars}));
+        res.end(JSON.stringify({'status':1,'years':years,'tags':tags,'stars':stars}));
       }
+    }
+    else{
+      res.end(JSON.stringify({'status':0}));
     }
   });
 }

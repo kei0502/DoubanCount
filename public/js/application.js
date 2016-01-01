@@ -1,6 +1,7 @@
 var name, tags, years, stars;
 function showYear() {
   $('#yearList').empty();
+  years.sort(function(a,b){return a.year<b.year;});
   for (var i = 0, length = years.length; i < length; i++) {
     var str = '<div class="col-lg-3 col-md-6 text-center"><div class="service-box">';
     str += '<i class="fa fa-3x fa-play-circle wow bounceIn text-faded"></i>';
@@ -42,25 +43,50 @@ function showCloud() {
 
 }
 (function ($) {
+  $('.error').hide();
+  $('.loading').hide();
   $('#nameSearch').click(function () {
     if ($('#nameInput').val() && $('#nameInput').val() != '') {
-      console.log($('#nameInput').val());
+      $('.loading').css('top', ($(document).scrollTop() + ($(window).height()  - 30) / 2));
+      $('.loading').css('left', ($(document).scrollLeft() + ($(window).width() - 150) / 2));
+      $('.loading').show();
+      $('#nameSearch').attr('disabled','disabled');
       $.ajax({
         type: "get",
         url: "/name?name=" + encodeURIComponent($('#nameInput').val()),
         dataType: 'json',
         success: function (data) {
-          years = data.years;
-          stars = data.stars;
-          tags = data.tags;
-          if (years)
-            showYear();
-          if (stars)
-            showStar(0);
-          if(tags)
-            showCloud();
+          if(data.status==1) {
+            $('.error').hide();
+            $('.loading').hide();
+            $('#nameSearch').removeAttr('disabled');
+            years = data.years;
+            stars = data.stars;
+            tags = data.tags;
+            if (years)
+              showYear();
+            if (stars)
+              showStar(0);
+            if (tags)
+              showCloud();
+          }
+          else {
+            $('.error p').html('该豆瓣域名找不到');
+            $('.error').show();
+            $('.loading').hide();
+            $('#nameSearch').removeAttr('disabled');
+            $('#yearList').empty();
+            $('#starList').empty();
+            $('#wordcloud').empty();
+          }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
+          $('.error p').html('用户数据太庞大,还是本地跑吧');
+          $('.loading').hide();
+          $('#yearList').empty();
+          $('#starList').empty();
+          $('#wordcloud').empty();
+          $('#nameSearch').attr('disabled','');
           console.log(errorThrown);
         }
       });

@@ -17,6 +17,7 @@
 </head>
 
 <body id="page-top">
+
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -60,7 +61,8 @@
             <div class="header-content-inner">
                 <h1>豆瓣电影统计</h1>
                 <hr>
-                <p>在豆瓣电影上<br/>每年给多少部电影打分?<br/>用过什么标签?<br/>最喜欢哪些电影?</p>
+                <p>在豆瓣电影上<br/>每年给多少部电影打分?<br/>用过什么标签?<br/>最喜欢哪些电影?<br/>
+                    <span style="font-size: .5em;">(只是demo,数据量大时还是本地跑代码吧)</span></p>
                 <a href="#search" class="btn btn-primary btn-xl page-scroll">开始查询</a>
             </div>
         </div>
@@ -79,9 +81,12 @@
                 <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
                     <input type="text" class="form-control" name="nameSearch" id="nameInput" placeholder="豆瓣域名">
                 </div>
+                <div class="text-center error col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
+                    <p>该豆瓣域名找不到</p>
+                </div>
             </div>
             <div class="row" style="margin-top: 2em;">
-                <div style="text-align: center;" class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
+                <div class="text-center col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2">
                     <button class="btn btn-primary btn-xl" id="nameSearch">查询</button>
                 </div>
             </div>
@@ -131,7 +136,13 @@
             </div>
         </div>
     </section>
-
+    <div class="loading">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
