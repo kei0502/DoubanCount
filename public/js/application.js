@@ -1,12 +1,16 @@
 var name, tags, years, stars;
 function showYear() {
   $('#yearList').empty();
-  years.sort(function(a,b){return a.year<b.year;});
+  years.sort(function(a,b){return -parseInt(a.year)+parseInt(b.year);});
+  var today=new Date();
   for (var i = 0, length = years.length; i < length; i++) {
     var str = '<div class="col-lg-3 col-md-6 text-center"><div class="service-box">';
     str += '<i class="fa fa-3x fa-play-circle wow bounceIn text-faded"></i>';
     str += '<h5><span>' + years[i].year + '</span>年共看了<span>' + years[i].count + '</span>部电影<br/>';
-    str += '平均<span>' + Math.round(365 / years[i].count * 1000) / 1000 + '</span>天看一部电影<br/>';
+    if(years[i].year!=today.getFullYear())
+      str += '平均<span>' + Math.round(365 / years[i].count * 1000) / 1000 + '</span>天看一部电影<br/>';
+    else
+      str += '平均<span>' + Math.round((parseInt(Math.abs(today - new Date(years[i].year,0,1))/1000/60/60/24)+1)  / years[i].count * 1000) / 1000 + '</span>天看一部电影<br/>';
     str += '其中五星电影有<span>' + years[i].star + '</span>部</h5></div></div>';
     $('#yearList').append(str);
   }
