@@ -24,7 +24,7 @@ cloud = {
             .selectAll("text")
             .data(words)
             .enter().append("text")
-            .style("font-size", function(d) { return d.size*2 + "px"; })
+            .style("font-size", function(d) { return d.size*1.5 + "px"; })
             .style("font-family", options.font)
             .style("fill", function(d, i) { return fill(i); })
             .attr("text-anchor", "middle")
