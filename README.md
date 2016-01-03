@@ -1,7 +1,7 @@
 # 豆瓣电影统计
 
 ### 2016.1.1  
-[demo](http://doubancount.coding.io)
+[demo](http://dbcount.coding.io)
 功能有:  
 - 统计每年看过的电影
 - 显示五星电影（每次10部,刷新下一页）
