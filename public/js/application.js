@@ -58,7 +58,7 @@ function showCloud() {
       $('#nameSearch').attr('disabled','disabled');
       $.ajax({
         type: "get",
-        url: "/name?name=" + encodeURIComponent($('#nameInput').val()),
+        url: "/search?name=" + encodeURIComponent($('#nameInput').val()),
         dataType: 'json',
         success: function (data) {
           if(data.status==1) {
